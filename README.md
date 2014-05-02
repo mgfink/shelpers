@@ -1,4 +1,4 @@
-testrepo
+shellpers
 ========
 
-Mike's test repo...for the basics :-)
+Mike's repo for shell script helpers
