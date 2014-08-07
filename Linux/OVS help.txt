@@ -1,0 +1,92 @@
+#list defined bridges
+ovs-vsctl list-br
+
+# Statistics by port
+ovs-ofctl dump-ports <bridge>
+		   
+# Show switch port info
+ovs-ofctl show <bridge>  (shows port number, mac addr, dev name, etc.)
+ovs-ofctl dump-ports-desc <bridge>
+
+# Show datapaths
+ovs-dpctl <-s> show
+
+# show bonding info
+ovs-appctl bond/show
+ovs-appctl bond/list
+
+# show lacp configuration
+ovs-appctl lacp/show
+
+#shows ports
+ovs-vsctl list-ports <bridge name>
+
+#list port info (all bridges?) and is very verbose -- includes VLAN info
+ovs-vsctl list port <port for more info>
+
+# show FDB (mac addr lookup)
+ovs-appctl fdb/show <bridge>
+
+# Shows basic info including bridge/port/vlan/interface relationship(s)
+ovs-vsctl show
+
+# Change mac on a port
+ovs-vsctl set interface vlan70 mac="6c\:ae\:8b\:6a\:81\:78"
+
+# Clear other_config params
+ovs-vsctl set port bond0 other_config={}
+
+Basic set up....
+
+ovs-vsctl add-br br0
+ovs-vsctl add-port br0 tap-70 tag=70 (public)
+ovs-vsctl add-port br0 tap-200 tag=200 (private)
+ovs-vsctl set bridge br0 other-config:hwaddr=00:11:22:33:44:55
+
+Other option to configure a bonded interface and use lacp
+ovs-vsctl add-br br-ex
+ovs-vsctl add-bond br-ex bond0 eth0 eth1 lacp=active
+ovs-vsctl set port bond0 bond_mode=balance-tcp
+ovs-vsctl set port bond0 other-config:lacp-time=fast
+
+Disable LACP
+ovs-vsctl set port bond0 bond_mode=balance-slb
+ovs-vsctl set port bond0 lacp=off
+
+
+ovs-vsctl add-port br-ex vlan161 tag=161 -- set Interface vlan161 type=internal
+
+#To make use of OVS in guest xml
+<interface type='bridge'>
+<source bridge='br0'/>
+<virtualport type='openvswitch'/>
+<model type='spapr-vlan'/>
+<address type='spapr-vio' reg='0x1000'/>
+</interface>
+
+#To make use of VLAN ID use following in the Guest xml
+<interface type='bridge'>
+       <source bridge='br0'/>
+      <vlan trunk='yes'>
+        <tag id='42' nativeMode='untagged'/>
+        <tag id='47'/>
+      </vlan>
+      <virtualport type='openvswitch'/>
+      <model type='spapr-vlan'/>
+      <address type='spapr-vio' reg='0x1000'/>
+    </interface>
+
+http://openvswitch.org/pipermail/discuss/2011-October/005845.html	
+Tagged VLAN interface on top of ovsbridge0:
+==> ifcfg-vlan100 <==
+DEVICE=vlan100
+ONBOOT=yes
+DEVICETYPE=ovs
+TYPE=OVSIntPort
+BOOTPROTO=static
+IPADDR=A.B.C.D
+NETMASK=X.Y.Z.0
+OVS_BRIDGE=ovsbridge0
+OVS_OPTIONS="tag=100"
+OVS_EXTRA="set Interface $DEVICE external-ids:iface-id=$(hostname -s)-$DEVICE-vif"
+HOTPLUG=no
