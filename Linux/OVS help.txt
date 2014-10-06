@@ -1,3 +1,6 @@
+Good reference here
+http://networkstatic.net/setting-overlays-open-vswitch/
+
 #list defined bridges
 ovs-vsctl list-br
 
@@ -90,3 +93,31 @@ OVS_BRIDGE=ovsbridge0
 OVS_OPTIONS="tag=100"
 OVS_EXTRA="set Interface $DEVICE external-ids:iface-id=$(hostname -s)-$DEVICE-vif"
 HOTPLUG=no
+
+virsh net definition
+<network>
+  <name>ovs-network</name>
+  <forward mode='bridge'/>
+  <bridge name='ovsbr0'/>
+  <virtualport type='openvswitch'/>
+  <portgroup name='vlan-01' default='yes'>
+  </portgroup>
+  <portgroup name='vlan-02'>
+    <vlan>
+      <tag id='2'/>
+    </vlan>
+  </portgroup>
+  <portgroup name='vlan-03'>
+    <vlan>
+      <tag id='3'/>
+    </vlan>
+  </portgroup>
+  <portgroup name='vlan-all'>
+    <vlan trunk='yes'>
+      <tag id='2'/>
+      <tag id='3'/>
+    </vlan>
+  </portgroup>
+</network>
+
+http://blog.scottlowe.org/2012/11/07/using-vlans-with-ovs-and-libvirt/
