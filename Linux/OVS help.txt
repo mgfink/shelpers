@@ -1,5 +1,7 @@
 Good reference here
 http://networkstatic.net/setting-overlays-open-vswitch/
+http://blog.scottlowe.org/2012/11/07/using-vlans-with-ovs-and-libvirt/
+
 
 #list defined bridges
 ovs-vsctl list-br
@@ -120,4 +122,3 @@ virsh net definition
   </portgroup>
 </network>
 
-http://blog.scottlowe.org/2012/11/07/using-vlans-with-ovs-and-libvirt/
