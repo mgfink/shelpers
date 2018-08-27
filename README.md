@@ -6,10 +6,6 @@ This is a generic repo of 'helper' shell scripts (ie. shelpers).  If any of the 
 
 Git clone....it's pretty self explanatory!
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Authors
 
 * **Mike Fink** - *Initial work* 
