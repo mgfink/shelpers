@@ -1,0 +1,46 @@
+# PATH updates
+export PATH=$PATH:/Users/H59157/Downloads/google-cloud-sdk/bin
+export PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export PATH=$PATH:/Users/H59157/Library/Python/3.8/bin
+
+# Add other exports here
+
+# Functions
+
+pushd()
+{
+  if [ $# -eq 0 ]; then
+    DIR="${HOME}"
+  else
+    DIR="$1"
+  fi
+
+  builtin pushd "${DIR}" > /dev/null
+  #echo -n "DIRSTACK: "
+  dirs
+}
+
+pushd_builtin()
+{
+  builtin pushd > /dev/null
+  #echo -n "DIRSTACK: "
+  dirs
+}
+
+popd()
+{
+  builtin popd > /dev/null
+  #echo -n "DIRSTACK: "
+  dirs
+}
+
+# Aliases
+alias cdb='cd ~/'
+alias cd='pushd'
+alias back='popd'
+alias flip='pushd_builtin'
+alias excel='open -a "Microsoft Excel"'
+alias powerpnt='open -a "Microsoft PowerPoint"'
+alias winword='open -a "Microsoft Word"'
+
+
