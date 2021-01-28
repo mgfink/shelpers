@@ -37,10 +37,18 @@ popd()
 # Aliases
 alias cdb='cd ~/'
 alias cd='pushd'
-alias back='popd'
+alias ..='popd'
 alias flip='pushd_builtin'
+alias src='cd ~/src'
+
+alias supercat='cat -e -t -v'
+
 alias excel='open -a "Microsoft Excel"'
 alias powerpnt='open -a "Microsoft PowerPoint"'
 alias winword='open -a "Microsoft Word"'
+
+alias tfi='terraform init'
+alias tfp='terraform plan'
+alias tfa='terraform apply -auto-approve'
 
 
