@@ -51,4 +51,5 @@ alias tfi='terraform init'
 alias tfp='terraform plan'
 alias tfa='terraform apply -auto-approve'
 
-
+# Removes branches that no longer are being tracked
+gitrmlb() { git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d; }
