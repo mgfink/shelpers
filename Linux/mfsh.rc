@@ -53,3 +53,16 @@ alias tfa='terraform apply -auto-approve'
 
 # Removes branches that no longer are being tracked
 gitrmlb() { git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d; }
+gitlsbr() { git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' }
+
+# Run whatever commands you want on all folders in $1/aws-voyager*
+gitrunner() { find $1 -type d -depth 1 -name "aws-voyager*" -print -exec git --git-dir={}/.git "${@:2}" \; }
+
+# List all unmerged branches for every repo under $1/aws-voyager*
+gitlsbrnomerged() { find $1 -type d -depth 1 -name "aws-voyager*" -print -exec git --git-dir={}/.git branch --no-merge origin/dev -r \; }
+
+# List all merged branches for every repo under $1/aws-voyager*
+gitlsbrmerged() { find $1 -type d -depth 1 -name "aws-voyager*" -print -exec git --git-dir={}/.git branch --no-merge origin/dev -r \; }
+
+# Remove all local branches without remote tracker under $1/aws-voyager*
+gitfprune() { find $1 -type d -depth 1 -name "aws-voyager*" -print -exec git --git-dir={}/.git fetch --prune origin \; }
