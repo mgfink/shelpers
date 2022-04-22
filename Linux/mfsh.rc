@@ -35,6 +35,7 @@ popd()
 }
 
 # Aliases
+alias cat=bat
 alias cdb='cd ~/'
 alias cd='pushd'
 alias ..='popd'
@@ -50,6 +51,7 @@ alias winword='open -a "Microsoft Word"'
 alias tfi='terraform init'
 alias tfp='terraform plan'
 alias tfa='terraform apply -auto-approve'
+alias macflush='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder'
 
 # Removes branches that no longer are being tracked
 gitrmlb() { git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d; }
@@ -66,3 +68,7 @@ gitlsbrmerged() { find $1 -type d -depth 1 -name "aws-voyager*" -print -exec git
 
 # Remove all local branches without remote tracker under $1/aws-voyager*
 gitfprune() { find $1 -type d -depth 1 -name "aws-voyager*" -print -exec git --git-dir={}/.git fetch --prune origin \; }
+
+# Needed to enable docker thru minikube
+eval $(minikube docker-env)
+
